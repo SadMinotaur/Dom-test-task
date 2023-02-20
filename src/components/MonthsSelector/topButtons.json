@@ -1,1 +1,5 @@
-[{"name": "Год"}, {"name": "Кварталы"}, {"name": "Месяцы"}]
+[
+  {"name": "Год", "baseMonthCount": 12},
+  {"name": "Кварталы", "baseMonthCount": 3},
+  {"name": "Месяцы", "baseMonthCount": 1}
+]
