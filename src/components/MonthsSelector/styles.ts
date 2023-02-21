@@ -1,7 +1,7 @@
 import {StyleSheet} from 'react-native';
 import {value} from '../../helpers/scale';
 
-const borderRadius = value(20);
+const borderRadius = value(15);
 
 const styles = StyleSheet.create({
   grayContainer: {
@@ -10,6 +10,14 @@ const styles = StyleSheet.create({
     borderRadius,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   monthsContainer: {
     marginTop: value(10),
@@ -36,21 +44,22 @@ const styles = StyleSheet.create({
   topBarTextActive: {
     color: 'white',
   },
+  monthTextContainer: {
+    flex: 1,
+    zIndex: 1,
+  },
   monthText: {
     color: 'black',
     textAlign: 'center',
     fontSize: value(15),
   },
-  monthContainer: {
-    flex: 1,
-    zIndex: 1,
-  },
-  monthActive: {
+  monthActiveSelector: {
     position: 'absolute',
     backgroundColor: 'white',
     height: '100%',
     borderRadius,
   },
+  monthActiveSelectorPan: {backgroundColor: 'transparent', zIndex: 2},
 });
 
 export default styles;
