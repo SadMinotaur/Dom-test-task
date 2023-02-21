@@ -1,4 +1,4 @@
-# Dom.ru test task
+# Дом.рф test task
 
 Main component - Months Selector
 
