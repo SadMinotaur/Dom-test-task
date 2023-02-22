@@ -16,17 +16,19 @@ import Animated, {
   withSpring,
 } from 'react-native-reanimated';
 import styles from './styles';
-import TopButtons from './topButtons.json';
+import topButtons from './topButtons.json';
+import {
+  AnimationContext,
+  MonthType,
+  SelectMonthsArgs,
+  TopBarStates,
+} from './types';
 import {
   monthPercent,
-  MonthsCollection,
+  monthsCollection,
   monthScreenPart,
-  SelectMonthsArgs,
   springConfig,
 } from './utils';
-
-type TopBarStates = (typeof TopButtons)[number];
-type AnimationContext = {startValue: number};
 
 interface Props {
   initialMonths?: [number, number];
@@ -38,7 +40,7 @@ export default function MonthsSelector({
   onChange,
 }: Props): React.ReactElement {
   const [topBarActive, setTopBarActive] = React.useState<TopBarStates>(
-    TopButtons?.[initialMonths ? 2 : 1],
+    topButtons?.[initialMonths ? 2 : 1],
   );
   const activeMonthWidth = useSharedValue(
     initialMonths
@@ -91,22 +93,21 @@ export default function MonthsSelector({
     activeMonthWidth.value = withSpring(tab.baseMonthCount, springConfig);
   };
 
-  const onButtonPress =
-    (month: (typeof MonthsCollection)[number]) => (): void => {
-      if (month.number + activeMonthWidth.value > MonthsCollection.length) {
-        const start = MonthsCollection.length - activeMonthWidth.value;
-        leftOffset.value = withSpring(start, springConfig);
-        onChange?.([start, MonthsCollection.length - 1]);
-      } else {
-        leftOffset.value = withSpring(month.number, springConfig);
-        onChange?.([month.number, month.number + activeMonthWidth.value - 1]);
-      }
-    };
+  const onButtonPress = (month: MonthType) => (): void => {
+    if (month.number + activeMonthWidth.value > monthsCollection.length) {
+      const start = monthsCollection.length - activeMonthWidth.value;
+      leftOffset.value = withSpring(start, springConfig);
+      onChange?.([start, monthsCollection.length - 1]);
+    } else {
+      leftOffset.value = withSpring(month.number, springConfig);
+      onChange?.([month.number, month.number + activeMonthWidth.value - 1]);
+    }
+  };
 
   return (
     <>
       <View style={styles.grayContainer}>
-        {TopButtons.map(topButton => {
+        {topButtons.map(topButton => {
           const containerStyles: StyleProp<ViewStyle> = [
             styles.topButtonContainer,
           ];
@@ -128,7 +129,7 @@ export default function MonthsSelector({
         })}
       </View>
       <View style={[styles.grayContainer, styles.monthsContainer]}>
-        {MonthsCollection.map(month => (
+        {monthsCollection.map(month => (
           <View
             key={month.long}
             style={[styles.monthTextContainer]}
